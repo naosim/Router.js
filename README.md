@@ -5,4 +5,7 @@ Micro Routing without dependencies
 
 Usage:
 
-Router.init(routes);
+Router.init([
+  {section: 'test', route: '/test/:id'},
+  {section: 'home', route: ''}
+]);
