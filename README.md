@@ -1,7 +1,7 @@
 Router.js
 =========
 
-Micro Routing without dependencies
+Micro Routing Framework event based without dependencies
 
 Usage:
 
