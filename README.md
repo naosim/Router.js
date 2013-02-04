@@ -1,4 +1,8 @@
 Router.js
 =========
 
-Micro Routing
+Micro Routing without dependencies
+
+Usage:
+
+Router.init(routes);
