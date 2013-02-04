@@ -43,8 +43,8 @@ var Router = function Router() {
 	}
 
 	return {
-		init: function init(r) {
-			routes = r || [];
+		init: function init(routesArray) {
+			routes = routesArray || [];
 			interval = setInterval(function checkAddressChanged() {
 				if (location.hash !== oldHash) {
 					onChange(location.hash, oldHash);
