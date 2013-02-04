@@ -13,16 +13,16 @@ Router.init([
 
 document.addEventListener('RouteChanged', function(event) {
 	console.log(event.controller, event.params);
-	/*
-
-	with url '#/test/Alberto/Sarullo':
-	- event.controller will be: 'test'
-	- event.params will be: {
-	   'name':    'Alberto', 
-	   'surname': 'Sarullo'
-	  }
-
-	*/
 }
 
+```
+
+Follow the example, with url '#/test/Alberto/Sarullo' the event will incapsulate two parameters:
+
+```javascript
+event.controller will be: 'test'
+event.params will be: {
+  'name':    'Alberto', 
+  'surname': 'Sarullo'
+ }
 ```
