@@ -8,7 +8,7 @@ var Router = function Router() {
 	
 	var interval,
 		oldHash = '',
-		routes = [ {section: 'home', route: ''} ];
+		routes = [ {controller: 'home', route: ''} ];
 
 	function onChange(hash, oldHash) {
 
@@ -28,7 +28,7 @@ var Router = function Router() {
 				routeEvent = document.createEvent("Event");
 				routeEvent.initEvent("RouteChanged", true, true);
 				routeEvent.params = {};
-				routeEvent.section = routes[i].section;
+				routeEvent.controller = routes[i].controller;
 				if (matchResult) {
 					matchResult.shift();
 					names = route.match(/:(\w+)/ig);
