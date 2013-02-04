@@ -1,17 +1,28 @@
 Router.js
 =========
 
-Micro Routing Framework event based without dependencies
+Routing Micro Framework event based without dependencies
 
 Usage:
 
 ```javascript
-document.addEventListener('RouteChanged', function(e) {
-	console.log(e.section, e.params);
-}
-
 Router.init([
-  {controller: 'test', route: '/test/:param1/:param2'},
+  {controller: 'test', route: '/test/:name/:surname'},
   {controller: 'home', route: ''}
 ]);
+
+document.addEventListener('RouteChanged', function(event) {
+	console.log(event.controller, event.params);
+	/*
+
+	with url '#/test/Alberto/Sarullo':
+	- event.controller will be: 'test'
+	- event.params will be: {
+	   'name':    'Alberto', 
+	   'surname': 'Sarullo'
+	  }
+
+	*/
+}
+
 ```
