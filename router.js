@@ -16,7 +16,7 @@ var Router = function Router() {
 			route,
 			matcher,
 			matchResult,
-			event,
+			routeEvent,
 			j,
 			names;
 
@@ -25,18 +25,18 @@ var Router = function Router() {
 			matcher = new RegExp(route.replace(/:[^\s/]+/g, '([\%àéèìòù\\w\\s+]+)'));
 			if (matcher.test(hash)) {
 				matchResult = hash.match(matcher);
-				event = document.createEvent("Event");
-				event.initEvent("RouteChanged", true, true);
-				event.params = {};
-				event.section = routes[i].section;
+				routeEvent = document.createEvent("Event");
+				routeEvent.initEvent("RouteChanged", true, true);
+				routeEvent.params = {};
+				routeEvent.section = routes[i].section;
 				if (matchResult) {
 					matchResult.shift();
 					names = route.match(/:(\w+)/ig);
 					for (j = 0; j < matchResult.length; j++) {
-						event.params[names[j].substr(1)] = matchResult[j];
+						routeEvent.params[names[j].substr(1)] = matchResult[j];
 					}
 				}
-				document.dispatchEvent(event);
+				document.dispatchEvent(routeEvent);
 				break;
 			}
 		}
