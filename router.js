@@ -1,16 +1,43 @@
+
 /*
 
-Router.js - by Alberto Sarullo
+  Router.js - by Alberto Sarullo
+
+  https://github.com/albertosarullo/Router.js
 
 */
 
+
 var Router = function Router() {
-	
-	var interval,
-		oldHash = '',
+	var app,
+		interval,
+		callback,
+		oldHash = '/Router.js',
 		routes = [ {controller: 'home', route: ''} ];
 
-	function onChange(hash, oldHash) {
+	app = {
+		init: function init(routesArray) {
+			routes = routesArray || [];
+			interval = setInterval(function checkAddressChanged() {
+				if (location.hash !== oldHash) {
+					onChangeLocation(location.hash, oldHash);
+					oldHash = location.hash;
+				}
+			}, 250);
+			return app;
+		},
+		deinit: function deinit() {
+			clearInterval(interval);
+			return app;
+		},
+		onChange: function onChange(callbackFunction) {
+			callback = callbackFunction;
+			// onChangeLocation(location.hash, oldHash);
+			return app;
+		}
+	};
+
+	function onChangeLocation(hash, oldHash) {
 
 		var i,
 			route,
@@ -22,13 +49,16 @@ var Router = function Router() {
 
 		for (i = 0; i < routes.length; i++) {
 			route = routes[i].route;
-			matcher = new RegExp(route.replace(/:[^\s/]+/g, '([\%àéèìòù\\w\\s+]+)'));
+			matcher = new RegExp(route.replace(/:[^\s/]+/g, '([\%àéèìòù\.\\w\\s+]+)'));
 			if (matcher.test(hash)) {
 				matchResult = hash.match(matcher);
-				routeEvent = document.createEvent("Event");
-				routeEvent.initEvent("RouteChanged", true, true);
-				routeEvent.params = {};
-				routeEvent.controller = routes[i].controller;
+				//routeEvent = document.createEvent("Event");
+				//routeEvent.initEvent("RouteChanged", true, true);
+				routeEvent = {
+					params: {},
+					controller: routes[i].controller
+				};
+				
 				if (matchResult) {
 					matchResult.shift();
 					names = route.match(/:(\w+)/ig);
@@ -36,25 +66,15 @@ var Router = function Router() {
 						routeEvent.params[names[j].substr(1)] = matchResult[j];
 					}
 				}
-				document.dispatchEvent(routeEvent);
+				// document.dispatchEvent(routeEvent);
+				if (callback) {
+					callback(routeEvent.controller, routeEvent.params);
+				}
+
 				break;
 			}
 		}
 	}
 
-	return {
-		init: function init(routesArray) {
-			routes = routesArray || [];
-			interval = setInterval(function checkAddressChanged() {
-				if (location.hash !== oldHash) {
-					onChange(location.hash, oldHash);
-					oldHash = location.hash;
-				}
-			}, 250);
-		},
-		deinit: function deinit() {
-			clearInterval(interval);
-		}
-	};
-	
+	return app;
 }();
