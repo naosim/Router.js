@@ -1,4 +1,3 @@
-
 /*
 
   Router.js - by Alberto Sarullo
@@ -19,6 +18,7 @@ var Router = function Router() {
 		init: function init(routesArray) {
 			routes = routesArray || [];
 			interval = setInterval(function checkAddressChanged() {
+				// console.log(location.hash, oldHash);
 				if (location.hash !== oldHash) {
 					onChangeLocation(location.hash, oldHash);
 					oldHash = location.hash;
@@ -34,6 +34,37 @@ var Router = function Router() {
 			callback = callbackFunction;
 			// onChangeLocation(location.hash, oldHash);
 			return app;
+		},
+		go: function go(controller, params) {
+			//callback(controller, params);
+
+			// todo: find route that match params, and construct url
+			for (i = 0; i < routes.length; i++) {
+				if (routes[i].controller === controller) {
+					var route = routes[i].route;
+					var findedParams = 0;
+					var paramsNumber = 0;
+					var param;
+					var tempRoute;
+					for (param in params) {
+						paramsNumber ++;
+						if (route.indexOf(':' + param) != -1) {
+							findedParams ++;
+						}
+					}
+
+					if (findedParams === paramsNumber) {
+						tempRoute = route;
+						for (param in params) {
+							tempRoute = tempRoute.replace(':' + param, params[param]);
+						}
+						callback(controller, params);
+						location.hash = tempRoute;
+					}
+				}
+
+			}
+
 		}
 	};
 
@@ -58,7 +89,7 @@ var Router = function Router() {
 					params: {},
 					controller: routes[i].controller
 				};
-				
+
 				if (matchResult) {
 					matchResult.shift();
 					names = route.match(/:(\w+)/ig);
