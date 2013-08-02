@@ -41,41 +41,45 @@ var Router = (function Router() {
 			return app;
 		},
 		go: function go(controller, params) {
-			//callback(controller, params);
-
 			var i,
 				route,
-				findedParams,
 				paramsNumber,
-				param,
-				tempRoute;
+				findedParams,
+				paramsMatches,
+				param;
 
-			// todo: find route that match params, and construct url
 			for (i = 0; i < routes.length; i = i + 1) {
 				if (routes[i].controller === controller) {
 					route = routes[i].route;
-					findedParams = 0;
 					paramsNumber = 0;
+					findedParams = 0;
+
+					paramsMatches = route.match(/:[^\s\/]+/ig);
+					if (paramsMatches) {
+						paramsNumber = paramsMatches.length;
+					}
+
 					for (param in params) {
 						if (params.hasOwnProperty(param)) {
-							paramsNumber = paramsNumber + 1;
 							if (route.indexOf(':' + param) !== -1) {
 								findedParams = findedParams + 1;
+								route = route.replace(":" + param, params[param]);
 							}
 						}
 					}
 
 					if (findedParams === paramsNumber) {
-						tempRoute = route;
-						for (param in params) {
-							if (params.hasOwnProperty(param)) {
-								tempRoute = tempRoute.replace(':' + param, params[param]);
-							}
-						}
-						callback(controller, params);
-						location.hash = tempRoute;
+						break;
+					} else {
+						route = undefined;
 					}
 				}
+			}
+
+			if (route) {
+				setTimeout(function() {
+					location.hash = route;
+				}, 0);
 			}
 		}
 	};
