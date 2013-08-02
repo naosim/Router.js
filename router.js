@@ -25,7 +25,7 @@ var Router = (function Router() {
 			interval = setInterval(function checkAddressChanged() {
 				// console.log(location.hash, oldHash);
 				if (location.hash !== oldHash) {
-					onChangeLocation(location.hash, oldHash);
+					onChangeLocation(location.hash);
 					oldHash = location.hash;
 				}
 			}, 250);
