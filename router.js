@@ -92,7 +92,7 @@ var Router = (function Router() {
 
 		for (i = 0; i < routes.length; i = i + 1) {
 			route = routes[i].route;
-			matcher = new RegExp(route.replace(/:[^\s/]+/g, '([\%àéèìòù\.\\w\\s+]+)'));
+			matcher = new RegExp(route.replace(/:[^\s\/]+/ig, '([^\\s\\/]+)'));
 			if (matcher.test(hash)) {
 				matchResult = hash.match(matcher);
 				//routeEvent = document.createEvent("Event");
@@ -104,7 +104,7 @@ var Router = (function Router() {
 
 				if (matchResult) {
 					matchResult.shift();
-					names = route.match(/:(\w+)/ig);
+					names = route.match(/:[^\s\/]+/ig);
 					for (j = 0; j < matchResult.length; j = j + 1) {
 						routeEvent.params[names[j].substr(1)] = matchResult[j];
 					}
