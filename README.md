@@ -25,3 +25,8 @@ params will be: {
   'surname': 'Sarullo'
  }
 ```
+
+
+## License
+
+MIT or WTFPL
