@@ -8,6 +8,7 @@ Usage:
 ```javascript
 Router.init([
   {controller: 'test', route: '/test/:name/:surname'},
+  {controller: 'test2', route: '/test2/:name', callback: function(){/* do something */}},
   {controller: 'home', route: ''}
 ]).onChange(function(controller, params) {
 	

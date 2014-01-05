@@ -114,7 +114,9 @@ var Router = (function Router() {
 					}
 				}
 				// document.dispatchEvent(routeEvent);
-				if (callback) {
+				if(routes[i].callback) {
+					routes[i].callback(routeEvent.params);
+				} else if (callback) {
 					callback(routeEvent.controller, routeEvent.params);
 				}
 
