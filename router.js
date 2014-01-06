@@ -110,7 +110,11 @@ var Router = (function Router() {
 					matchResult.shift();
 					names = route.match(/:[^\s\/]+/ig);
 					for (j = 0; j < matchResult.length; j = j + 1) {
-						routeEvent.params[names[j].substr(1)] = matchResult[j];
+                        if(names[j].indexOf('(int)') == -1) {
+                            routeEvent.params[names[j].substr(1)] = matchResult[j];
+                        } else {
+                            routeEvent.params[names[j].substr(1, names[j].length - '(int)'.length - 1)] = parseInt(matchResult[j], 10);
+                        }
 					}
 				}
 				// document.dispatchEvent(routeEvent);
